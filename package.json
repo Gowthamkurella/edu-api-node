@@ -1,0 +1,16 @@
+{
+  "name": "edu-api-node",
+  "version": "1.0.0",
+  "description": "An advanced Node.js backend API for an e-learning platform, featuring user registration, profile management, course CRUD operations for superadmins, user enrollments, and more. Utilizes neon.tech for database management, resend.com for email services, and integrates secure authentication with JWT.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm start\" \"cd frontend && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
