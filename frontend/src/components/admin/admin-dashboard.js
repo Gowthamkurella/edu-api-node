@@ -28,15 +28,15 @@ const AdminDashboard = () => {
       }
     });
     const { courses, userDetails } = response.data;
-    setCourses(courses); 
-    setFilteredCourses(courses); 
+    setCourses(courses);
+    setFilteredCourses(courses);
     setUserDetails(userDetails);
   };
 
   const handleSearch = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchInput(value);
-    setPage(0); 
+    setPage(0);
     const filtered = courses.filter(course =>
       Object.values(course).some(val =>
         String(val).toLowerCase().includes(value)
@@ -45,18 +45,27 @@ const AdminDashboard = () => {
     setFilteredCourses(filtered);
   };
 
-  const handleDelete = async (courseId) => {
-    // Placeholder for delete course logic
-    // Replace URL with your actual endpoint
-    await axios.delete(`/api/courses/${courseId}`);
-    fetchCourses(); 
+  const handleDelete = async (courseId, courseName) => {
+    const isConfirmed = window.confirm(`Are you sure you want to delete the course: ${courseName}?`);
+
+    if (isConfirmed) {
+      try {
+        await axios.delete(`/admin/courses/${courseId}`, {
+          headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        fetchCourses();
+        alert('Course successfully deleted.');
+      } catch (error) {
+        console.error('Failed to delete course:', error.response?.data?.message || error.message);
+        alert('Failed to delete course. Please try again.');
+      }
+    }
   };
 
-  const handleEdit = (courseId) => {
-    // Navigate to the edit course page with courseId as a parameter
-    navigate(`/edit-course/${courseId}`);
+  const handleEdit = (course) => {
+    navigate('/edit-course', { state: { course } });
   };
-
+  
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -97,10 +106,10 @@ const AdminDashboard = () => {
                 <TableCell>{course.category}</TableCell>
                 <TableCell>{course.level}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleEdit(course.courseid)}>
+                  <IconButton onClick={() => handleEdit(course)}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(course.courseid)}>
+                  <IconButton onClick={() => handleDelete(course.courseid, course.coursename)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
