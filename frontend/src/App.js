@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Register from './components/registration';
+import Login from './components/login';
+import AdminDashboard from './components/admin-dashboard';
+import UserDashboard from './components/user-dashboard';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path='/register' element={<Register/>} />
+          <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
+          <Route path='/user-dashboard' element={<UserDashboard/>}/>
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 
