@@ -49,7 +49,6 @@ function Login() {
       const { token } = response.data;
       localStorage.setItem('token', token);
 
-
       navigate(role === 'admin' ? '/admin-dashboard' : '/user-dashboard');
     } catch (error) {
       const message = error.response?.data?.message || "Login failed. Please try again.";

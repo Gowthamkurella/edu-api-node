@@ -4,8 +4,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Register from './components/registration';
 import Login from './components/login';
-import AdminDashboard from './components/admin-dashboard';
+import AdminDashboard from './components/admin/admin-dashboard';
 import UserDashboard from './components/user-dashboard';
+import AddCourse from './components/admin/add-course';
 
 const darkTheme = createTheme({
   palette: {
@@ -23,6 +24,7 @@ function App() {
           <Route path='/register' element={<Register/>} />
           <Route path='/admin-dashboard' element={<AdminDashboard/>}/>
           <Route path='/user-dashboard' element={<UserDashboard/>}/>
+          <Route path='/add-course' element={<AddCourse/>}/>
         </Routes>
       </Router>
     </ThemeProvider>

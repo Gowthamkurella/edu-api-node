@@ -85,7 +85,7 @@ const CustomAppBar = ({ username }) => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
           <UserHeader>
-            <Avatar alt="Admin" src="/path-to-your-admin-avatar.jpg" /> {/* Update with actual path */}
+            <Avatar alt="Admin" /> {/* Update with actual path */}
             <UserInfo>
               <Typography variant="subtitle1">{username || 'Admin'}</Typography>
               <Typography variant="body2">Administrator</Typography>

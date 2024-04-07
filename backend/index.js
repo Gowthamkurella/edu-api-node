@@ -9,19 +9,22 @@ const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
 const { generateUserId } = require('./utils');
+const adminRoutes = require('./routes/admin');
+const { pool } = require('./utils');
 
 app.use(express.json());
+app.use('/admin', adminRoutes);
 
-const pool = new Pool({
-  user: process.env.PGUSER,
-  host: process.env.PGHOST,
-  database: process.env.PGDATABASE,
-  password: process.env.PGPASSWORD,
-  port: process.env.PGPORT,
-  ssl: {
-    rejectUnauthorized: true,
-  }
-});
+// const pool = new Pool({
+//   user: process.env.PGUSER,
+//   host: process.env.PGHOST,
+//   database: process.env.PGDATABASE,
+//   password: process.env.PGPASSWORD,
+//   port: process.env.PGPORT,
+//   ssl: {
+//     rejectUnauthorized: true,
+//   }
+// });
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -70,6 +73,7 @@ app.post('/login', async (req, res) => {
           process.env.JWT_SECRET,
           { expiresIn: '2h' }
         );
+        console.log(token);
         res.json({ token });
       } else {
         res.status(401).json({ message: "Invalid credentials" });
