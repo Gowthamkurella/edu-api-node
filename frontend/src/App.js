@@ -5,10 +5,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Register from './components/registration';
 import Login from './components/login';
 import AdminDashboard from './components/admin/admin-dashboard';
-import UserDashboard from './components/user-dashboard';
+import UserDashboard from './components/users/user-dashboard'
 import AddCourse from './components/admin/add-course';
 import EditCourse from './components/admin/edit-course';
-
+import NewCourseEnrollment from './components/users/register-course';
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -27,6 +27,7 @@ function App() {
           <Route path='/user-dashboard' element={<UserDashboard/>}/>
           <Route path='/add-course' element={<AddCourse/>}/>
           <Route path='/edit-course' element={<EditCourse/>}/>
+          <Route path='/register-course' element={<NewCourseEnrollment/>}/>
         </Routes>
       </Router>
     </ThemeProvider>

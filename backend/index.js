@@ -11,20 +11,11 @@ const multer = require('multer');
 const { generateUserId } = require('./utils');
 const adminRoutes = require('./routes/admin');
 const { pool } = require('./utils');
+const userRoutes = require('./routes/users');
 
 app.use(express.json());
 app.use('/admin', adminRoutes);
-
-// const pool = new Pool({
-//   user: process.env.PGUSER,
-//   host: process.env.PGHOST,
-//   database: process.env.PGDATABASE,
-//   password: process.env.PGPASSWORD,
-//   port: process.env.PGPORT,
-//   ssl: {
-//     rejectUnauthorized: true,
-//   }
-// });
+app.use('/user',userRoutes);
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -160,7 +151,6 @@ app.post('/register', parser.single('profilePic'), async (req, res) => {
     if (emailCheck.rows.length > 0) {
       return res.status(400).json({ message: 'Email already exists.' });
     }
-
     const newUser = await pool.query(
       'INSERT INTO users (userid,name, email, password, profile_picture_url, semester) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *',
       [userid,name, email, hashedPassword, profilePicUrl, semester]

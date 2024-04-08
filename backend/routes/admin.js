@@ -21,7 +21,7 @@ const verifyToken = (req, res, next) => {
 
 router.get('/courses', verifyToken, async (req, res) => {
   try {
-    const allCourses = await pool.query('SELECT * FROM courses');
+    const allCourses = await pool.query('SELECT * FROM courses order by courseid');
     const userDetails  = await getDetails(req.userId,req.role);
     res.json({
         courses: allCourses.rows,
@@ -54,7 +54,7 @@ router.post('/add-courses', verifyToken, async (req, res) => {
   });
 
 
-router.delete('/courses/:courseid', verifyToken, async (req, res) => {
+router.delete('/delete-courses/:courseid', verifyToken, async (req, res) => {
   const { courseid } = req.params;
   
   try {

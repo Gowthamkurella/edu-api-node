@@ -68,10 +68,27 @@ const generateCourseId = async () => {
   }
 };
 
+const generateEnrollId = async (pool) => {
+  try {
+    const result = await pool.query('SELECT enrollid FROM course_enrollments ORDER BY enrollid DESC LIMIT 1');
+    if (result.rows.length > 0) {
+      const lastEnrollId = result.rows[0].enrollid;
+      const numericPart = parseInt(lastEnrollId.substring(3)) + 1;
+      return `EID${numericPart}`;
+    } else {
+      return 'EID100';
+    }
+  } catch (error) {
+    console.error('Error generating enroll ID:', error);
+    throw new Error('Error generating enroll ID');
+  }
+};
+
 
 module.exports = {
   generateUserId,
   pool,
   getDetails,
   generateCourseId,
+  generateEnrollId,
 };

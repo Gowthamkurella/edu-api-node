@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
     if (isConfirmed) {
       try {
-        await axios.delete(`/admin/courses/${courseId}`, {
+        await axios.delete(`/admin/delete-courses/${courseId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         fetchCourses();
