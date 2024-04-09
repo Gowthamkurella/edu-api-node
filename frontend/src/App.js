@@ -9,6 +9,9 @@ import UserDashboard from './components/users/user-dashboard'
 import AddCourse from './components/admin/add-course';
 import EditCourse from './components/admin/edit-course';
 import NewCourseEnrollment from './components/users/register-course';
+import ForgotPassword from './components/forgotpassword';
+import UserProfile from './components/users/user-profile';
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -28,6 +31,8 @@ function App() {
           <Route path='/add-course' element={<AddCourse/>}/>
           <Route path='/edit-course' element={<EditCourse/>}/>
           <Route path='/register-course' element={<NewCourseEnrollment/>}/>
+          <Route path='/forgot-password' element={<ForgotPassword/>}/>
+          <Route path='/user-profile' element={<UserProfile/>}/>
         </Routes>
       </Router>
     </ThemeProvider>

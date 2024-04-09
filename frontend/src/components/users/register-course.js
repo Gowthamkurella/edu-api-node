@@ -83,7 +83,7 @@ const NewCourseEnrollment = () => {
 
     return (
         <div>
-            <UserAppBar username="User" />
+            <UserAppBar/>
             <Container maxWidth="lg" sx={{ mt: 12 }}>
                 <Box sx={{ maxWidth: 300, mb: 2 }}>
                     <TextField

@@ -6,6 +6,11 @@ const {getDetails} = require('../utils');
 const {generateEnrollId} = require('../utils');
 require('dotenv').config();
 const { Resend } = require('resend');
+const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+
 const resend = new Resend('re_hN6mMtxn_Guu7tcNMEv1mEM96FfQzj1Y4');
 
 const verifyToken = (req, res, next) => {
@@ -20,6 +25,21 @@ const verifyToken = (req, res, next) => {
       next();
     });
   };
+
+  
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  folder: "educonnect_profiles",
+  allowedFormats: ["jpg", "png", "jpeg"],
+});
+
+const parser = multer({ storage: storage });
 
   router.get('/get-unenrolled-courses', verifyToken, async (req, res) => {
     try {
@@ -148,6 +168,35 @@ const verifyToken = (req, res, next) => {
     } catch (error) {
       console.error('Error unenrolling from the course:', error);
       res.status(500).json({ message: 'Failed to unenroll from the course.' });
+    }
+  });
+
+  router.post('/update-profile',verifyToken,parser.single('image'), async (req, res) => {
+    const { name, email, semester } = req.body;
+    const userid = req.userId; 
+    const newImage = req.file ? req.file.path : null;
+  
+    try {
+      const userResult = await pool.query('SELECT * FROM users WHERE userid = $1', [userid]);
+      if (userResult.rows.length === 0) {
+        return res.status(404).json({ message: "User not found." });
+      }
+  
+      const currentUser = userResult.rows[0];
+  
+      if (newImage && currentUser.profile_picture_url) {
+        const publicId = currentUser.profile_picture_url.split('/').pop().split('.')[0];
+        await cloudinary.uploader.destroy(publicId);
+      }
+      const updateQuery = `
+        UPDATE users SET name = $1, email = $2, semester = $3, profile_picture_url = $4
+        WHERE userid = $5 RETURNING *`;
+      const updatedUser = await pool.query(updateQuery, [name, email, semester, newImage || currentUser.profile_picture_url, userid]);
+  
+      res.json({ message: "Profile updated successfully", user: updatedUser.rows[0] });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Failed to update profile." });
     }
   });
 

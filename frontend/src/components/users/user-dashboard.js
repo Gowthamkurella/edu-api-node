@@ -41,7 +41,7 @@ const UserDashboard = () => {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         });
         alert('Successfully unenrolled from the course.');
-        fetchEnrolledCourses(); // Refresh the enrolled courses list
+        fetchEnrolledCourses(); 
       } catch (error) {
         console.error('Failed to unenroll from course:', error);
         alert('Failed to unenroll from the course. Please try again.');
@@ -64,7 +64,7 @@ const UserDashboard = () => {
 
   return (
     <div>
-      <UserAppBar username="User" />
+      <UserAppBar/>
       <Container maxWidth="lg" sx={{ mt: 12 }}>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
           <Button variant="contained" onClick={handleRegisterNewCourse}>Register for New Course</Button>

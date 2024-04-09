@@ -11,7 +11,8 @@ import {
   Box,
   Container,
   Alert,
-  CircularProgress
+  CircularProgress,
+  Link
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
@@ -121,7 +122,7 @@ function Login() {
           fullWidth
           variant="contained"
           sx={{ mt: 3, mb: 2, position: 'relative' }}
-          disabled={loading} 
+          disabled={loading}
         >
           Sign In
           {loading && (
@@ -136,6 +137,13 @@ function Login() {
               }}
             />
           )}
+        </Button>
+        <Button
+          color="primary"
+          fullWidth
+          onClick={() => navigate('/forgot-password')}
+        >
+          Forgot Password ?
         </Button>
         <Button
           color="primary"
